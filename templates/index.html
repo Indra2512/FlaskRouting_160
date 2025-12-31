@@ -1,84 +1,25 @@
-from flask import Flask, redirect, render_template_string, request, url_for
-
-app = Flask(__name__)
-
-# 1. Definisikan CSS dan HTML dalam satu variabel (Flask Python Style)
-login_ui = """
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Halaman Login</title>
     <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f0f2f5;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-        .login-card {
-            background: white;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            width: 320px;
-            text-align: center;
-        }
-        input[type="text"] {
-            width: 100%;
-            padding: 10px;
-            margin: 15px 0;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            box-sizing: border-box;
-        }
-        button {
-            width: 100%;
-            padding: 10px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: bold;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
+        body { font-family: sans-serif; display: flex; justify-content: center; margin-top: 50px; }
+        .card { border: 1px solid #ccc; padding: 20px; border-radius: 8px; box-shadow: 2px 2px 10px #eee; }
+        input { padding: 8px; margin-bottom: 10px; width: 200px; }
+        button { padding: 8px 15px; background-color: #28a745; color: white; border: none; cursor: pointer; }
     </style>
 </head>
 <body>
-    <div class="login-card">
-        <h2>Login Form</h2>
+    <div class="card">
+        <h3>Login Form</h3>
         <form action="/login" method="post">
-            <p style="text-align:left; margin:0; font-size:14px; color:#555;">Masukkan Nama:</p>
+            <p>Masukkan Nama:</p>
             <input type="text" name="nm" placeholder="Nama anda..." required>
+            <br>
             <button type="submit">Submit (POST)</button>
         </form>
     </div>
 </body>
 </html>
-"""
-
-@app.route('/')
-def home():
-    # 2. Gunakan render_template_string untuk memanggil variabel login_ui
-    return render_template_string(login_ui) 
-
-@app.route('/success/<name>')
-def success(name):
-    return f'Welcome {name}'
-
-@app.route('/login', methods=['POST', 'GET'])
-def index():
-    if request.method == 'POST':
-        user = request.form['nm']
-        return redirect(url_for('success', name=user))
-    else:
-        user = request.args.get('nm')
-        return redirect(url_for('success', name=user))
-    
-if __name__ == "__main__":
-    app.run(debug=True)
